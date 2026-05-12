@@ -2,7 +2,7 @@
 A personal, zero-dependency dashboard designed to track, balance, and optimize five core life systems: **Health**, **Research &amp; Career**, **Grades**, **Spirituality**, and **Family &amp; Friends**.  
 Built for a college student navigating a rigorous academic load, research commitments, and community leadership, this dashboard brings daily habits, weekly goals, and reflective logging into one beautiful, interactive interface.
 
-🔗 **[Live Demo](https://yourusername.github.io/nich-life-os)** *(replace with your actual GitHub Pages URL)*
+🔗 **[Live Demo](https://nicholasmckayh29-art.github.io/life-app-os/)**
 
 ## ✨ Features
 - 🎯 **5-System Navigation**: Tabbed interface with dynamic color theming per life domain
