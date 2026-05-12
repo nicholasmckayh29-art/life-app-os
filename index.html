@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nich's Life OS</title>
+<!-- Tabler Icons (for the ti- classes you're using) -->
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --bg-body: #f1f5f9;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --border-light: #e2e8f0;
+  --border-focus: #cbd5e1;
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 28px rgba(0,0,0,0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: 
+    radial-gradient(circle at 15% 25%, rgba(99,102,241,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(236,72,153,0.08) 0%, transparent 40%),
+    var(--bg-body);
+  min-height: 100vh;
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding: 2rem 1rem;
+}
+
+.os-wrapper {
+  max-width: 740px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Navigation */
+.sys-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.75rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); }
+.sys-pill {
+  padding: 9px 15px;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+}
+.sys-pill:hover { transform: translateY(-2px); border-color: var(--text-tertiary); box-shadow: var(--shadow-sm); }
+.sys-pill.active {
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+.sys-pill i { font-size: 15px; }
+
+/* Panels & Headers */
+.panel { display: none; animation: slideFade 0.35s ease-out; }
+.panel.active { display: block; }
+@keyframes slideFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.sys-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+.sys-icon { font-size: 24px; }
+.sys-title { font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+.sys-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+/* Metrics */
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.metric {
+  background: #f8fafc;
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  border-left: 3px solid transparent;
+  transition: var(--transition);
+}
+.metric:hover { transform: translateY(-2px); background: #fff; box-shadow: var(--shadow-sm); }
+.metric-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.metric-val { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+.metric-unit { font-size: 12px; color: var(--text-secondary); margin-left: 2px; font-weight: 400; }
+
+/* Section & Lists */
+.section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 10px; margin-top: 1.5rem; }
+.item-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+.item-row {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md); padding: 12px 14px;
+  transition: var(--transition);
+}
+.item-row:hover { border-color: var(--border-focus); background: #fafbfc; }
+
+.item-check {
+  width: 22px; height: 22px;
+  border: 2px solid var(--border-light);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  background: #fff; color: var(--text-secondary);
+  transition: var(--transition);
+}
+.item-check:hover { border-color: var(--text-tertiary); transform: scale(1.08); }
+.item-check.done { border-color: transparent; transform: scale(1.15); }
+.item-text { font-size: 14px; color: var(--text-primary); flex: 1; font-weight: 500; }
+.item-text.done { text-decoration: line-through; color: var(--text-tertiary); font-weight: 400; }
+
+/* Progress */
+.progress-wrap { margin-bottom: 1.5rem; background: #f1f5f9; border-radius: var(--radius-full); padding: 12px 16px; }
+.prog-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 600; }
+.prog-bar { height: 7px; background: rgba(0,0,0,0.06); border-radius: var(--radius-full); overflow: hidden; }
+.prog-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+/* Note Card */
+.note-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+  font-size: 13.5px;
+  color: #78350f;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+  border-left: 4px solid #d97706;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Log & Buttons */
+.log-area {
+  width: 100%; height: 85px;
+  font-family: var(--font-sans); font-size: 13px; line-height: 1.6;
+  resize: vertical; margin-bottom: 10px;
+  padding: 12px; border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-light);
+  background: #fafbfc;
+  transition: var(--transition);
+}
+.log-area:focus { outline: none; border-color: #6366f1; background: #fff; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+
+.add-row { display: flex; gap: 8px; margin-bottom: 1rem; }
+.btn-sm {
+  padding: 9px 18px; font-size: 12px; font-weight: 600;
+  border-radius: var(--radius-md); cursor: pointer;
+  font-family: var(--font-sans); border: 1.5px solid var(--border-light);
+  background: transparent; color: var(--text-secondary);
+  transition: var(--transition);
+}
+.btn-sm:hover { background: #f1f5f9; border-color: var(--border-focus); transform: translateY(-1px); }
+.btn-primary-sm { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+.btn-primary-sm:hover { background: #1e293b; box-shadow: 0 4px 14px rgba(15,23,42,0.25); }
+
+.ask-btn {
+  width: 100%; padding: 12px;
+  border: 1.5px dashed var(--border-focus);
+  background: transparent;
+  border-radius: var(--radius-md);
+  font-size: 13px; font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer; font-family: var(--font-sans);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 1rem; transition: var(--transition);
+}
+.ask-btn:hover { background: #f8fafc; border-style: solid; border-color: #6366f1; color: #4f46e5; transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  body { padding: 0; }
+  .os-wrapper { margin: 0; border-radius: 0; box-shadow: none; border: none; padding: 1.25rem; }
+  .metrics { grid-template-columns: 1fr 1fr; }
+  .sys-nav { gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<div class="os-wrapper">
+  <h2 class="sr-only" style="position:absolute;left:-9999px;">Nich's Life Operating System — five systems dashboard</h2>
+  <div class="os">
+    <div class="sys-nav" id="nav"></div>
+    <div id="panels"></div>
+  </div>
+</div>
+
+<script>
+const SYSTEMS = [
+  { id:'health', label:'Health OS', icon:'ti-activity', color:'#10B981', bg:'#D1FAE5', textColor:'#065F46', sub:'Sleep · movement · energy',
+    metrics:[ {label:'Sleep goal',val:'7',unit:'hrs'}, {label:'Workouts/wk',val:'3',unit:'target'}, {label:'Water',val:'8',unit:'cups/day'} ],
+    sections:[ {label:'Daily habits',items:[ {text:'Slept 7+ hours',key:'h1'}, {text:'Drank 8 cups of water',key:'h2'}, {text:'Moved today (walk, gym, judo)',key:'h3'}, {text:'Ate a real meal (not just snacks)',key:'h4'}, {text:'No late-night doom scroll',key:'h5'} ]} ],
+    logLabel:'Energy / body note for today', askPrompt:'Help me build a simple health routine that fits a college student with research responsibilities and a JRA role.' },
+  { id:'research', label:'Research & Career', icon:'ti-atom', color:'#8B5CF6', bg:'#EDE9FE', textColor:'#5B21B6', sub:'NanoPhotonics · MSRC · software',
+    metrics:[ {label:'Active projects',val:'3',unit:''}, {label:'Lab hrs/wk',val:'6',unit:'target'}, {label:'Apps out',val:'2',unit:''} ],
+    sections:[ {label:'This week',items:[ {text:'Log NanoPhotonics lab hours',key:'r1'}, {text:'Advance Python S-matrix port',key:'r2'}, {text:'MSRC Black Press Archives task',key:'r3'}, {text:'Work on qAI project (electronCollisions)',key:'r4'}, {text:'Update resume or LinkedIn if relevant',key:'r5'} ]} ],
+    logLabel:'Research progress / ideas / blockers', askPrompt:'Help me prioritize between my NanoPhotonics lab work, MSRC duties, and qAI software project this week.' },
+  { id:'grades', label:'Grades', icon:'ti-school', color:'#F59E0B', bg:'#FEF3C7', textColor:'#92400E', sub:'4.0 GPA · Physics · Data Science',
+    metrics:[ {label:'Current GPA',val:'4.0',unit:''}, {label:'Credits',val:'30+',unit:''}, {label:'Courses',val:'5',unit:'active'} ],
+    sections:[ {label:'Academic habits',items:[ {text:'Reviewed notes from today\'s classes',key:'g1'}, {text:'Worked on a problem set or assignment',key:'g2'}, {text:'Read assigned pages (Schroeder / Blundell)',key:'g3'}, {text:'No assignment due tomorrow that\'s untouched',key:'g4'}, {text:'Visited office hours or asked a question',key:'g5'} ]} ],
+    logLabel:'What I studied / understood / struggled with', askPrompt:'I am a Physics and Data Science double major maintaining a 4.0. Help me build a study system that keeps pace with thermodynamics and differential equations.' },
+  { id:'spirit', label:'Spirituality', icon:'ti-cross', color:'#EF4444', bg:'#FEE2E2', textColor:'#B91C1C', sub:'Faith · theology · practice',
+    metrics:[ {label:'Scripture',val:'Daily',unit:''}, {label:'Prayer',val:'AM+PM',unit:''}, {label:'Anchor',val:'Phil 4:13',unit:''} ],
+    sections:[ {label:'Daily practice',items:[ {text:'Read scripture or devotional',key:'s1'}, {text:'Prayed intentionally (not just in passing)',key:'s2'}, {text:'Reflected — journal, walk, or quiet time',key:'s3'}, {text:'Acted with integrity today',key:'s4'}, {text:'Connected theology to something I\'m learning',key:'s5'} ]} ],
+    logLabel:'Reflection, prayer, or theological thought', askPrompt:'Help me think through a devotional practice that integrates with my academic life as a physicist and historian.', scripture:'"Do justice, love mercy, walk humbly." — Micah 6:8' },
+  { id:'family', label:'Family & Friends', icon:'ti-users', color:'#3B82F6', bg:'#DBEAFE', textColor:'#1E40AF', sub:'Georgetown, Guyana · Howard community',
+    metrics:[ {label:'Called home',val:'Weekly',unit:''}, {label:'JRA check-ins',val:'Ongoing',unit:''}, {label:'Podcast',val:'Ghetto K.',unit:''} ],
+    sections:[ {label:'Relationships this week',items:[ {text:'Called or messaged family in Guyana',key:'f1'}, {text:'Checked in on a friend — not just a text',key:'f2'}, {text:'Did something for a resident (JRA)',key:'f3'}, {text:'Showed up present in a conversation',key:'f4'}, {text:'Worked on Ghetto Kaleidoscope content',key:'f5'} ]} ],
+    logLabel:'Who I connected with and how it went', askPrompt:'Help me think about how to stay connected to family in Guyana and build deeper community at Howard while managing a full research and academic load.' }
+];
+
+let active = 'health';
+let checks = {};
+let logs = {};
+
+function wk(){const d=new Date(),j=new Date(d.getFullYear(),0,1);return `${d.getFullYear()}-w${Math.ceil(((d-j)/864e5+j.getDay()+1)/7)}`;}
+
+function render(){
+  const nav=document.getElementById('nav');
+  nav.innerHTML=SYSTEMS.map(s=>`
+    <button class="sys-pill ${s.id===active?'active':''}" style="${s.id===active?`background:${s.color};`:''}" onclick="activate('${s.id}')">
+      <i class="ti ${s.icon}" aria-hidden="true"></i>${s.label}
+    </button>`).join('');
+
+  const panels=document.getElementById('panels');
+  panels.innerHTML=SYSTEMS.map(s=>{
+    const isActive=s.id===active;
+    const wkey=wk();
+    const checkedCount=s.sections.flatMap(sec=>sec.items).filter(it=>checks[`${wkey}-${it.key}`]).length;
+    const totalCount=s.sections.flatMap(sec=>sec.items).length;
+    const pct=Math.round(checkedCount/totalCount*100);
+
+    const metricsHtml=s.metrics.map(m=>`
+      <div class="metric" style="border-left-color:${s.color}30">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-val">${m.val}<span class="metric-unit">${m.unit}</span></div>
+      </div>`).join('');
+
+    const sectionsHtml=s.sections.map(sec=>`
+      <div class="section-label">${sec.label}</div>
+      <div class="item-list">${sec.items.map(it=>{
+        const key=`${wkey}-${it.key}`;
+        const done=checks[key];
+        return `<div class="item-row">
+          <div class="item-check ${done?'done':''}" style="${done?`background:${s.color};`:''}" onclick="toggle('${key}',this,'${s.color}')">
+            ${done?'<i class="ti ti-check" aria-hidden="true" style="font-size:12px;color:#fff"></i>':''}
+          </div>
+          <span class="item-text ${done?'done':''}">${it.text}</span>
+        </div>`;
+      }).join('')}</div>`).join('');
+
+    const scriptureHtml=s.scripture?`<div class="note-card">${s.scripture}</div>`:'';
+
+    return `<div class="panel ${isActive?'active':''}" id="panel-${s.id}">
+      <div class="sys-header">
+        <i class="ti ${s.icon} sys-icon" style="color:${s.color}" aria-hidden="true"></i>
+        <div>
+          <div class="sys-title">${s.label}</div>
+          <div class="sys-sub">${s.sub}</div>
+        </div>
+      </div>
+      ${scriptureHtml}
+      <div class="metrics">${metricsHtml}</div>
+      <div class="progress-wrap">
+        <div class="prog-row"><span>Weekly habits</span><span>${checkedCount}/${totalCount}</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:linear-gradient(90deg, ${s.color}, ${s.color}CC)"></div></div>
+      </div>
+      ${sectionsHtml}
+      <div class="section-label">Log</div>
+      <textarea class="log-area" id="log-${s.id}" placeholder="${s.logLabel}">${logs[s.id]||''}</textarea>
+      <div class="add-row">
+        <button class="btn-sm btn-primary-sm" onclick="saveLog('${s.id}')">Save note</button>
+      </div>
+      <button class="ask-btn" onclick="sendPrompt('${s.askPrompt}')">
+        <i class="ti ti-sparkles" aria-hidden="true"></i> Open in Claude ↗
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function activate(id){active=id;render();}
+
+function toggle(key,el,color){
+  checks[key]=!checks[key];
+  render();
+}
+
+function saveLog(id){
+  const ta=document.getElementById('log-'+id);
+  if(ta){logs[id]=ta.value;}
+}
+
+function sendPrompt(prompt) {
+  const url = `https://claude.ai/new?prompt=${encodeURIComponent(prompt)}`;
+  window.open(url, '_blank');
+}
+
+render();
+</script>
+
+</body>
+</html>
